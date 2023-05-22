@@ -247,7 +247,7 @@ const handleSelect = async (prediction) => {
   
   //  let GeoLocation  = ''
    let now = new Date();
-
+  console.log(prediction.value)
 
     HomePage.AddressSearch = prediction.value
    
@@ -432,9 +432,14 @@ const searchLocation = async () => {
   let GeoLocation = ''  
   let now = new Date();
   let LocationName = ''
+
+  console.log(HomePage.AddressSearch)
+
   if (HomePage.AddressSearch != null  && HomePage.AddressSearch != ''){
-  await GoogleMapService.getLatLng(HomePage.AddressSearch).then((result) => {     
+  await GoogleMapService.getLatLng(HomePage.AddressSearch).then((result) => {   
+    console.dir(result)  
       GeoLocation = result
+
    }).catch((err) => {
       console.log(err)
    });
@@ -442,20 +447,21 @@ const searchLocation = async () => {
     console.log(GeoLocation)
    
 
-    await GoogleMapService.getAddress(GeoLocation.lat,GeoLocation.lng).then((result) => {
+    await GoogleMapService.getAddress(GeoLocation[0],GeoLocation[1]).then((result) => {
       LocationName = result
     }).catch((err) => {
       
     });
 
-    
-  Google.center = {lat: GeoLocation.lat,lng: GeoLocation.lng}
+
+
+  Google.center = {lat: GeoLocation[0],lng: GeoLocation[1]}
 
 
   const history = {
       name : LocationName,
-      latitude : GeoLocation.lat ,
-      longitude : GeoLocation.lng,
+      latitude : GeoLocation[0] ,
+      longitude : GeoLocation[1],
       time : now 
     }
       
